@@ -7,8 +7,10 @@
 #include <QtGui/QMouseEvent>
 #include <QtMath>
 #include "simpleaver.h"
+#include "adaptaver.h"
 
 class SimpleAver;
+class AdaptAver;
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +40,7 @@ private:
     QPixmap sourceGist, resultGist;
 
     SimpleAver* sAver;
+    AdaptAver* aAver;
 
     int cutx,cuty;
 
@@ -48,6 +51,7 @@ void showImage(QImage *picture);
 void vSliderChanged(int value);
 void hSliderChanged(int value);
 void radio();
+void saveSlot();
 };
 
 #endif // MAINWINDOW_H

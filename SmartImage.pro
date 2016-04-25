@@ -14,10 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    simpleaver.cpp
+    simpleaver.cpp \
+    adaptaver.cpp
 
 HEADERS  += mainwindow.h \
-    simpleaver.h
+    simpleaver.h \
+    adaptaver.h
 
 FORMS    += mainwindow.ui \
-    simpleaver.ui
+    simpleaver.ui \
+    adaptaver.ui

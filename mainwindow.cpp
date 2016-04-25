@@ -26,16 +26,23 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(radio()));
     connect(ui->resultBtn, SIGNAL(toggled(bool)),
             this, SLOT(radio()));
-
+    connect(ui->applyButton, SIGNAL(clicked()),
+            this, SLOT(saveSlot()));
 
 
     sAver = new SimpleAver();
     ui->toolBox->removeItem(0);
     ui->toolBox->removeItem(0);
     ui->toolBox->addItem(sAver, "Простое шумоподавление");
-    sAver->show();
+    //sAver->show();
     sAver->setSource(this);
     sAver->setImage(image);
+
+    aAver = new AdaptAver();
+    ui->toolBox->addItem(aAver, "Адаптивное шумоподавление");
+    //sAver->show();
+    aAver->setSource(this);
+    aAver->setImage(image);
 }
 
 MainWindow::~MainWindow()
@@ -69,10 +76,12 @@ void MainWindow::loadImage() //загружаем картинку
     ui->horizontalSlider->setValue(image.width()/2);
     ui->verticalSlider->setValue(image.height()/2);
     //ui->cutLabel->setPixmap(doCut(&image,10));
-    sAver->setImage(image);
 
     sourceGist=makeGist(image);
     ui->gistLabel->setPixmap(sourceGist);
+
+    sAver->setImage(image);
+    aAver->setImage(image);
 }
 
 void MainWindow::saveImage()
@@ -145,7 +154,6 @@ QPixmap MainWindow::doCutVert(QImage *picture, int a)
             tgist.setPixel(x, y, qRgb(255,255,255));//pixel.rgb());
         }
     }
-    tgist = tgist.mirrored(0,1); //отзеркаливаем потому что пока что картинка перевернута
     QPixmap pixmap;
     pixmap.convertFromImage(tgist);
     return pixmap; //и возвращаем
@@ -242,9 +250,23 @@ void MainWindow::radio()
 
 }
 
+void MainWindow::saveSlot()
+{ //сохранить изменения, внесенные фильтрами
+    image=result;
+    showImage(&image);
+    ui->horizCutLabel->setPixmap(doCut(&result,cuty));
+    ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
+    resultGist=makeGist(result);
+    sourceGist=resultGist;
+    ui->gistLabel->setPixmap(resultGist);
+
+    sAver->setImage(image);
+    aAver->setImage(image);
+}
+
 
 void MainWindow::receiveResult(QImage picture)
-{
+{ //получить результат
     result = picture;
     showImage(&result);
     ui->resultBtn->setChecked(true);
