@@ -34,15 +34,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->removeItem(0);
     ui->toolBox->removeItem(0);
     ui->toolBox->addItem(sAver, "Простое шумоподавление");
-    //sAver->show();
     sAver->setSource(this);
     sAver->setImage(image);
 
     aAver = new AdaptAver();
     ui->toolBox->addItem(aAver, "Адаптивное шумоподавление");
-    //sAver->show();
     aAver->setSource(this);
     aAver->setImage(image);
+
+    curver = new Curver();
+    ui->toolBox->addItem(curver, "Кривые");
+    curver->setSource(this);
+    curver->setImage(image);
+        qDebug() << "been here";
 }
 
 MainWindow::~MainWindow()
@@ -82,6 +86,7 @@ void MainWindow::loadImage() //загружаем картинку
 
     sAver->setImage(image);
     aAver->setImage(image);
+    curver->setImage(image);
 }
 
 void MainWindow::saveImage()
@@ -208,6 +213,22 @@ QPixmap MainWindow::makeGist(QImage &greyPic)
     return pixmap;
 }
 
+void MainWindow::drawCurveOnGist(QList<int> sourceArray)
+{
+    QImage gist = sourceGist.toImage();
+    for (int x = 0; x < gist.width(); x++)
+    { //сверху синей линией нанесём чистый график функции
+        QColor pixel = gist.pixel(x, 10);
+        pixel.setRed(0);
+        pixel.setGreen(128);
+        pixel.setBlue(255);
+        gist.setPixel(x,sourceArray[x]/2, pixel.rgb());
+    }
+    QPixmap pixmap; //картинку нельзя показать когда она в QImage
+    pixmap.convertFromImage(gist); //конвертируем картинку в pixmap
+    ui->gistLabel->setPixmap(pixmap);
+}
+
 
 void MainWindow::vSliderChanged(int value)
 {
@@ -262,6 +283,7 @@ void MainWindow::saveSlot()
 
     sAver->setImage(image);
     aAver->setImage(image);
+    curver->setImage(image);
 }
 
 

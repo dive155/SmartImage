@@ -8,9 +8,11 @@
 #include <QtMath>
 #include "simpleaver.h"
 #include "adaptaver.h"
+#include "curver.h"
 
 class SimpleAver;
 class AdaptAver;
+class Curver;
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +31,7 @@ public:
     void setMaxProgress(int value);
     void setProgress(int value);
     QPixmap makeGist(QImage &greyPic);
+    void drawCurveOnGist(QList<int> sourceArray);
 
 
 private:
@@ -38,9 +41,11 @@ private:
     QImage output;
     int array[256];
     QPixmap sourceGist, resultGist;
+    QList<int> funcArray;
 
     SimpleAver* sAver;
     AdaptAver* aAver;
+    Curver* curver;
 
     int cutx,cuty;
 

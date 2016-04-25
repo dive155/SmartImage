@@ -15,12 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     simpleaver.cpp \
-    adaptaver.cpp
+    adaptaver.cpp \
+    curver.cpp
 
 HEADERS  += mainwindow.h \
     simpleaver.h \
-    adaptaver.h
+    adaptaver.h \
+    curver.h
 
 FORMS    += mainwindow.ui \
     simpleaver.ui \
-    adaptaver.ui
+    adaptaver.ui \
+    curver.ui
