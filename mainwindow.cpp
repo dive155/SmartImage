@@ -22,7 +22,20 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(vSliderChanged(int)));
     connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
             this, SLOT(hSliderChanged(int)));
+    connect(ui->sourceBtn, SIGNAL(toggled(bool)),
+            this, SLOT(radio()));
+    connect(ui->resultBtn, SIGNAL(toggled(bool)),
+            this, SLOT(radio()));
 
+
+
+    sAver = new SimpleAver();
+    ui->toolBox->removeItem(0);
+    ui->toolBox->removeItem(0);
+    ui->toolBox->addItem(sAver, "Простое шумоподавление");
+    sAver->show();
+    sAver->setSource(this);
+    sAver->setImage(image);
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +69,10 @@ void MainWindow::loadImage() //загружаем картинку
     ui->horizontalSlider->setValue(image.width()/2);
     ui->verticalSlider->setValue(image.height()/2);
     //ui->cutLabel->setPixmap(doCut(&image,10));
+    sAver->setImage(image);
+
+    sourceGist=makeGist(image);
+    ui->gistLabel->setPixmap(sourceGist);
 }
 
 void MainWindow::saveImage()
@@ -80,6 +97,7 @@ void MainWindow::showImage(QImage *picture)
 
 QPixmap MainWindow::doCut(QImage *picture, int y)
 { //рисуем срез функции яркости
+    cuty=y;
     QList<int> line; //заготовка под линию пикселей
     for (int x = 0; x < picture->width(); x++)
     {
@@ -106,6 +124,7 @@ QPixmap MainWindow::doCut(QImage *picture, int y)
 
 QPixmap MainWindow::doCutVert(QImage *picture, int a)
 { //рисуем срез функции яркости
+    cutx=a;
     QList<int> line; //заготовка под линию пикселей
     for (int y = 0; y < picture->height(); y++)
     {
@@ -132,12 +151,117 @@ QPixmap MainWindow::doCutVert(QImage *picture, int a)
     return pixmap; //и возвращаем
 }
 
+QPixmap MainWindow::makeGist(QImage &greyPic)
+{//функция, пересчитывающая яркости пикселей и выдающая гистограмму
+    QImage gist(256,128, QImage::Format_RGB32);
+    for (int z=1; z<3; z++)
+    {
+        for (int j = 0; j < 255; j++)
+        { //сначала всех пикселей ноль штук
+            array[j] = 0;
+        };
+        for (int x = 0; x < greyPic.width(); x++)
+            for (int y = 0; y < greyPic.height(); y++)
+            { //для каждого пикселя
+                QColor pixel = greyPic.pixel(x, y); //получаем пиксель
+                int color = pixel.lightness(); //считываем его яркость в переменную color
+                array[color] = array[color]+1; //и увеличиваем счетчик соответствующей яркости на 1
+            }
+        int big = 0; //найдем самый большой элемент массива
+        for (int m = 0; m < 256; m++)
+            {
+                if (array[m] >= big)
+                        big = array[m]; //и запишем его в переменную big
+            } //теперь нам нужно нормализовать массив чтобы самый большой элемент не превысил 255
+        double coef = 0;
+        coef = 128.0 / big; //для этого посчитали нормализующий коэффициент
+        for (int m = 0; m < 256; m++)
+             {
+                array[m] = array[m]*coef; //применяем его ко всем элементам
+             }
+        for (int x = 0; x < gist.width(); x++)
+            for (int y = 0; y < gist.height(); y++)
+            { // сначала закрашиваем её белым цветом
+                QColor pixel = QColor(255,255,255);//gist.pixel(x, y);
+                gist.setPixel(x, y, pixel.rgb());
+            }
+        for (int x = 0; x < gist.width(); x++)
+            if (array[x]>>0) //теперь нанесем черные столбцы толщиной в 1 пиксель
+            for (int y = 0; y < array[x]; y++) //столбцы имеют высоту от нуля до значения распространенности соответствующей яркости
+            { //т.е. например если 50% всех пикселей имеют яркость 120 то 120й столбик будет иметь высоту в 50% * 255 = 127
+                QColor pixel = QColor(0,0,0);
+                gist.setPixel(x, y, pixel.rgb());
+            }
+
+        gist = gist.mirrored(0,1); //зеркалим гистограмму чтобы не была вверх ногами
+    }
+    QPixmap pixmap; //картинку нельзя показать когда она в QImage
+    pixmap.convertFromImage(gist); //конвертируем картинку в pixmap
+    return pixmap;
+}
+
+
 void MainWindow::vSliderChanged(int value)
 {
-    ui->horizCutLabel->setPixmap(doCut(&image, value));
+    QImage* link;
+    if (ui->sourceBtn->isChecked()==true)
+        link = &image;
+    else
+        link = &result;
+    ui->horizCutLabel->setPixmap(doCut(link, value));
 }
 
 void MainWindow::hSliderChanged(int value)
 {
-    ui->vertiCutLabel->setPixmap(doCutVert(&image, value));
+    QImage* link;
+    if (ui->sourceBtn->isChecked()==true)
+        link = &image;
+    else
+        link = &result;
+    ui->vertiCutLabel->setPixmap(doCutVert(link, value));
+}
+
+void MainWindow::radio()
+{ //функция срабатывающая при переключении на исходное изображение
+    if (ui->sourceBtn->isChecked())
+    {
+        output = image;
+        showImage(&image); //показываем картинку
+        ui->horizCutLabel->setPixmap(doCut(&image,cuty));
+        ui->vertiCutLabel->setPixmap(doCutVert(&image,cutx));
+        ui->gistLabel->setPixmap(sourceGist);
+    }
+    if (ui->resultBtn->isChecked())
+    {
+        output = result;
+        showImage(&result); //показываем картинку
+        ui->horizCutLabel->setPixmap(doCut(&result,cuty));
+        ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
+        ui->gistLabel->setPixmap(resultGist);
+    }
+
+}
+
+
+void MainWindow::receiveResult(QImage picture)
+{
+    result = picture;
+    showImage(&result);
+    ui->resultBtn->setChecked(true);
+    ui->horizCutLabel->setPixmap(doCut(&result,cuty));
+    ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
+
+    resultGist=makeGist(result);
+    sourceGist=makeGist(image);
+    ui->gistLabel->setPixmap(resultGist);
+}
+
+void MainWindow::setMaxProgress(int value)
+{
+    ui->progressBar->setMaximum(value);
+}
+
+void MainWindow::setProgress(int value)
+{
+    ui->progressBar->setValue(value);
 }
