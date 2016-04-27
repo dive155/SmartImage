@@ -51,6 +51,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->addItem(sharper, "Увеличение резкости");
     sharper->setSource(this);
     sharper->setImage(image);
+
+    edger = new Edger();
+    ui->toolBox->addItem(edger, "Выделение граней");
+    edger->setSource(this);
+    edger->setImage(image);
         qDebug() << "been here";
 }
 
@@ -93,6 +98,7 @@ void MainWindow::loadImage() //загружаем картинку
     aAver->setImage(image);
     curver->setImage(image);
     sharper->setImage(image);
+    edger->setImage(image);
 }
 
 void MainWindow::saveImage()
@@ -291,6 +297,7 @@ void MainWindow::saveSlot()
     aAver->setImage(image);
     curver->setImage(image);
     sharper->setImage(image);
+    edger->setImage(image);
 }
 
 
