@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>769</width>
-    <height>632</height>
+    <width>669</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -163,6 +163,12 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QGroupBox" name="groupBox">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -173,7 +179,7 @@
          <string>Гистограмма</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
+         <item alignment="Qt::AlignHCenter">
           <widget class="QLabel" name="gistLabel">
            <property name="minimumSize">
             <size>
@@ -197,6 +203,12 @@
       </item>
       <item>
        <widget class="QToolBox" name="toolBox">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -207,7 +219,7 @@
          <number>0</number>
         </property>
         <property name="tabSpacing">
-         <number>6</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page">
          <property name="geometry">
@@ -215,7 +227,7 @@
            <x>0</x>
            <y>0</y>
            <width>300</width>
-           <height>338</height>
+           <height>345</height>
           </rect>
          </property>
          <attribute name="label">
@@ -227,8 +239,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>300</width>
-           <height>338</height>
+           <width>305</width>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -246,7 +258,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>769</width>
+     <width>669</width>
      <height>21</height>
     </rect>
    </property>

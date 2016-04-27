@@ -16,14 +16,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     simpleaver.cpp \
     adaptaver.cpp \
-    curver.cpp
+    curver.cpp \
+    sharper.cpp
 
 HEADERS  += mainwindow.h \
     simpleaver.h \
     adaptaver.h \
-    curver.h
+    curver.h \
+    sharper.h
 
 FORMS    += mainwindow.ui \
     simpleaver.ui \
     adaptaver.ui \
-    curver.ui
+    curver.ui \
+    sharper.ui

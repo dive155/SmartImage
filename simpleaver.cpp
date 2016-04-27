@@ -26,6 +26,7 @@ SimpleAver::SimpleAver(QWidget *parent) :
             this, SLOT(contrFilter()));
     connect(ui->spinBoxGarm, SIGNAL(valueChanged(int)),
             this, SLOT(checkSpinD(int)));
+    strength = 1;
 }
 
 SimpleAver::~SimpleAver()

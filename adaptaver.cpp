@@ -25,6 +25,7 @@ AdaptAver::AdaptAver(QWidget *parent) :
     connect(ui->spinBox_3, SIGNAL(valueChanged(int)),
             this, SLOT(checkLimit(int)));
     limit=1;
+    strength = 1;
 }
 
 AdaptAver::~AdaptAver()

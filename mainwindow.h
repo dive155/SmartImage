@@ -9,10 +9,12 @@
 #include "simpleaver.h"
 #include "adaptaver.h"
 #include "curver.h"
+#include "sharper.h"
 
 class SimpleAver;
 class AdaptAver;
 class Curver;
+class Sharper;
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +48,7 @@ private:
     SimpleAver* sAver;
     AdaptAver* aAver;
     Curver* curver;
+    Sharper* sharper;
 
     int cutx,cuty;
 

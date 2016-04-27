@@ -46,6 +46,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->addItem(curver, "Кривые");
     curver->setSource(this);
     curver->setImage(image);
+
+    sharper = new Sharper();
+    ui->toolBox->addItem(sharper, "Увеличение резкости");
+    sharper->setSource(this);
+    sharper->setImage(image);
         qDebug() << "been here";
 }
 
@@ -87,6 +92,7 @@ void MainWindow::loadImage() //загружаем картинку
     sAver->setImage(image);
     aAver->setImage(image);
     curver->setImage(image);
+    sharper->setImage(image);
 }
 
 void MainWindow::saveImage()
@@ -149,7 +155,7 @@ QPixmap MainWindow::doCutVert(QImage *picture, int a)
     //qDebug() << tgist.height() << tgist.width();
     for (int y = 0; y < tgist.height(); y++)
     {//рисуем снизу вверх
-        if (y>=600) qDebug() << tgist.height() << tgist.width();
+        //if (y>=600) qDebug() << tgist.height() << tgist.width();
         for (int x = 0; x < line[y]/4; x++)
         {   //сначала черным
             tgist.setPixel(x, y, qRgb(0,0,0));//pixel.rgb());
@@ -284,6 +290,7 @@ void MainWindow::saveSlot()
     sAver->setImage(image);
     aAver->setImage(image);
     curver->setImage(image);
+    sharper->setImage(image);
 }
 
 
