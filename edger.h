@@ -25,6 +25,8 @@ public:
     int applyWallace(QList<int> area);
     double maxOfList(QList<int> aList);
 
+    int applyAnyKernel(QList<int> area, QList<int>  kernel);
+
 protected:
      MainWindow* window;
 
@@ -36,14 +38,19 @@ private:
     int filter;
     QList<int> preCoef;
     double coef;
-
     QList<QList<int> > kernels;
     QList<int> sobelx; QList<int> sobely;
     QList<int> prewitx; QList<int> prewity;
 
+    QList<int> mask1;
+    QList<int> mask2;
+    QList<int> mask3;
+
+
 private slots:
     void doFilter();
     void radio();
+
 };
 
 #endif // EDGER_H

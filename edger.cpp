@@ -17,6 +17,12 @@ Edger::Edger(QWidget *parent) :
             this, SLOT(radio()));
     connect(ui->but4, SIGNAL(toggled(bool)),
             this, SLOT(radio()));
+    connect(ui->but5, SIGNAL(toggled(bool)),
+            this, SLOT(radio()));
+    connect(ui->but6, SIGNAL(toggled(bool)),
+            this, SLOT(radio()));
+    connect(ui->but7, SIGNAL(toggled(bool)),
+            this, SLOT(radio()));
     //связываем сигналы со слотами (кнопки с функциями):
     connect(ui->filterButton, SIGNAL(clicked()),
             this, SLOT(doFilter()));
@@ -68,6 +74,32 @@ Edger::Edger(QWidget *parent) :
     prewity << -1<< -2  << -1
             <<0  <<  0  << 0
             <<1  << 2   << 1;
+
+    mask1 << 0 << -1 << 0 //задаем маски LoG фильтра
+          <<-1 <<  4 << -1
+          << 0 << -1 << 0;
+
+    mask2 <<  0 <<  0 << -1 << -2 << -1 <<  0 <<  0
+          <<  0 << -2 << -3 << -6 << -3 << -2 <<  0
+          << -1 << -3 << -8 <<  0 << -8 << -3 << -1
+          << -2 << -6 <<  0 << 104<<  0 << -6 << -2
+          << -1 << -3 << -8 <<  0 << -8 << -3 << -1
+          <<  0 << -2 << -3 << -6 << -3 << -2 <<  0
+          <<  0 <<  0 << -1 << -2 << -1 <<  0 <<  0;
+
+    mask3 <<  0 <<  0 <<  0 << -1 << -1 << -2 << -1 << -1 <<  0 <<  0 <<  0
+          <<  0 <<  0 << -2 << -4 << -8 << -9 << -8 << -4 << -2 <<  0 <<  0
+          <<  0 << -2 << -7 << -15<<-22 <<-23 <<-22 << -15<< -7 << -2 <<  0
+          << -1 << -4 << -15<< -24<< -14<< -1 <<-14 <<-24 << -15<< -4 << -1
+          << -1 << -8 << -22<< -14<< 52 << 103<< 52 << -14<< -22<< -8 << -1
+
+          << -2 << -9 << -23<< -1 << 103<< 108<< 103<< -1 << -23<< -9 << -2
+
+          << -1 << -8 << -22<< -14<< 52 << 103<< 52 << -14<< -22<< -8 << -1
+          << -1 << -4 << -15<< -24<< -14<< -1 <<-14 <<-24 << -15<< -4 << -1
+          <<  0 << -2 << -7 << -15<<-22 <<-23 <<-22 << -15<< -7 << -2 <<  0
+          <<  0 <<  0 << -2 << -4 << -8 << -9 << -8 << -4 << -2 <<  0 <<  0
+          <<  0 <<  0 <<  0 << -1 << -1 << -2 << -1 << -1 <<  0 <<  0 <<  0;
 }
 
 Edger::~Edger()
@@ -204,6 +236,8 @@ int Edger::applyKirschKernel(QList<int> area, QList<QList<int> > kernel)
 void Edger::filtPixel(int curx, int cury, int mode)
 { //функция применения фильтра к одному пикселю
     int power = 1; //радиус окрестности
+    if (filter == 6) power = 3;
+    if (filter == 7) power = 5;
     QList<int> proxArray; //массивы яркостей окрестных точек
     for (int y = cury - power; y <= cury+ power; y++) //от верхней границы области до нижней
         for (int x = curx - power; x <= curx+ power; x++) //слева направо
@@ -211,7 +245,7 @@ void Edger::filtPixel(int curx, int cury, int mode)
             if ((0 <= x && x <= blackNWhite.width()-1) && (0 <= y && y <= blackNWhite.height()-1))
             { //если мы не вылезли за пределы картинки
                 QColor pixel = blackNWhite.pixel(x, y); //записываем цвет пикселя
-                proxArray.append(pixel.red()); //в массив окрестных пикселей
+                proxArray.append(pixel.lightness()); //в массив окрестных пикселей
             }
             else { //если вылезли за пределы картинки, считаем пиксель чёрным
                 proxArray.append(0);
@@ -234,6 +268,18 @@ void Edger::filtPixel(int curx, int cury, int mode)
     {
          Sum = applyKirschKernel(proxArray, kernels);
     }
+    if (filter == 5)
+    {
+         Sum = applyAnyKernel(proxArray, mask1);
+    }
+    if (filter == 6)
+    {
+         Sum = applyAnyKernel(proxArray, mask2);
+    }
+    if (filter == 7)
+    {
+         Sum = applyAnyKernel(proxArray, mask3);
+    }
 
     if (mode == 1) //если нормирующий коэффициент еще неизвестен, мы запоминаем
         //яркость пикселя и на этом заканчиваем
@@ -253,6 +299,15 @@ void Edger::filtPixel(int curx, int cury, int mode)
     }
 }
 
+int Edger::applyAnyKernel(QList<int> area, QList<int>  kernel)
+{ //функция, накладывающая маски для осей X и Y
+    int sum = 0;
+    for (int i = 0; i < area.size(); i++)
+    { //умножаем элемент окрестности на соответствующий элемент маски и
+        sum = sum + area[i]*kernel[i]; //считаем сумму всех таких произведений
+    }
+    return abs(sum);
+}
 
 void Edger::radio()
 { //функция срабатывающая при переключении на исходное изображение
@@ -271,5 +326,17 @@ void Edger::radio()
     if (ui->but4->isChecked())
     {
         filter = 4;
+    }
+    if (ui->but5->isChecked())
+    {
+        filter = 5;
+    }
+    if (ui->but6->isChecked())
+    {
+        filter = 6;
+    }
+    if (ui->but7->isChecked())
+    {
+        filter = 7;
     }
 }

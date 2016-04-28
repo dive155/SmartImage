@@ -52,11 +52,12 @@ MainWindow::MainWindow(QWidget *parent) :
     sharper->setSource(this);
     sharper->setImage(image);
 
+    qDebug() << "been here";
     edger = new Edger();
     ui->toolBox->addItem(edger, "Выделение граней");
     edger->setSource(this);
     edger->setImage(image);
-        qDebug() << "been here";
+
 }
 
 MainWindow::~MainWindow()
@@ -90,6 +91,7 @@ void MainWindow::loadImage() //загружаем картинку
     ui->horizontalSlider->setValue(image.width()/2);
     ui->verticalSlider->setValue(image.height()/2);
     //ui->cutLabel->setPixmap(doCut(&image,10));
+    ui->progressBar->setMaximumWidth(image.width());
 
     sourceGist=makeGist(image);
     ui->gistLabel->setPixmap(sourceGist);

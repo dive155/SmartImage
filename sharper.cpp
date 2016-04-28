@@ -159,12 +159,6 @@ QList<qreal> Sharper::genGauss(int power, qreal sigma)
     sum =1/sum;
     for (int i = 0; i<ohNo.size(); i++)
         ohNo[i]=ohNo[i]*sum;
-   /* for (int i = 0; i<ohNo.size(); i++)
-        ohNo[i] = ohNo[i]*sum;
-    sum = 0;
-    for (int i = 0; i<ohNo.size(); i++)
-        sum = sum + ohNo[i];
-    qDebug()<<sum;*/
     return ohNo;
 }
 

@@ -26,6 +26,10 @@ SimpleAver::SimpleAver(QWidget *parent) :
             this, SLOT(contrFilter()));
     connect(ui->spinBoxGarm, SIGNAL(valueChanged(int)),
             this, SLOT(checkSpinD(int)));
+    connect(ui->sigmaSpin, SIGNAL(valueChanged(double)),
+            this, SLOT(setGausSigma(double)));
+    connect(ui->gausBut, SIGNAL(clicked()),
+            this, SLOT(gausFilter()));
     strength = 1;
 }
 
@@ -354,4 +358,60 @@ qreal SimpleAver::contr(QList<int> src, int rang)
     return sumH;
 }
 
+QList<qreal> SimpleAver::genGauss(int power, qreal sigma)
+{
+    QList<qreal>ohNo;
+    for (int i = 1; i<=power*2+1; i++)
+    {
+        for (int j = 1; j<=power*2+1; j++)
+        {
 
+            ohNo.append( (1.0/sqrt(2.0*3.14159*sigma*sigma)) * qExp( -(qPow((j-power - 1.0), 2) + qPow((i-power - 1.0), 2))/(2.0*sigma*sigma) ));
+        }
+    }
+    qreal sum = 0;
+    for (int i = 0; i<ohNo.size(); i++)
+        sum = sum+ohNo[i];
+    sum =1/sum;
+    for (int i = 0; i<ohNo.size(); i++)
+        ohNo[i]=ohNo[i]*sum;
+    return ohNo;
+}
+
+int SimpleAver::applyKernel(QList<int> area, QList<qreal>  kernel)
+{ //функция, накладывающая маски
+    QList<qreal> reals;
+    for (int i = 0; i<area.size(); i++)
+        reals << area[i];
+    qreal sum = 0;
+    for (int i = 0; i < area.size(); i++)
+    { //умножаем элемент окрестности на соответствующий элемент маски и
+        sum = sum + reals[i]*kernel[i]; //считаем сумму всех таких произведений
+    }
+
+    return sum ;// 16; //возвращаем Z
+}
+
+void SimpleAver::gausFilter()
+{
+    QList<qreal> gaussian = genGauss(strength, sigma);
+    window->setMaxProgress(image.width()-1);
+    for (int x = 0; x<image.width(); x++)
+    {
+        window->setProgress(x);
+        for (int y = 0; y<image.height(); y++)
+        {
+            QColor pixel = image.pixel(x, y);
+            pixel.setRed(applyKernel(vicinity(&image,strength,x,y,1),gaussian));
+            pixel.setGreen(applyKernel(vicinity(&image,strength,x,y,2),gaussian));
+            pixel.setBlue(applyKernel(vicinity(&image,strength,x,y,3),gaussian));
+            result.setPixel(x,y,pixel.rgb());
+        }
+    }
+    window->receiveResult(result);
+}
+
+void SimpleAver::setGausSigma(double spin)
+{
+    sigma = spin;
+}

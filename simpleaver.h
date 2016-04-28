@@ -30,6 +30,9 @@ public:
      void doContr(int curx, int cury, int power, int rang);
      qreal contr(QList<int> src, int rang);
 
+     QList<qreal> genGauss(int power, qreal sigma);
+     int applyKernel(QList<int> area, QList<qreal>  kernel);
+
 protected:
      MainWindow* window;
 
@@ -42,6 +45,7 @@ private:
     int strength;
     int displacement;
     int degree;
+    qreal sigma;
 
 private slots:
     void medFilter();
@@ -55,6 +59,9 @@ private slots:
     void contrFilter();
     void checkSpinD(int spin);
     void checkdegree(int spin);
+
+    void gausFilter();
+    void setGausSigma(double spin);
 };
 
 #endif // SIMPLEAVER_H
