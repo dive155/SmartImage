@@ -18,18 +18,21 @@ SOURCES += main.cpp\
     adaptaver.cpp \
     curver.cpp \
     sharper.cpp \
-    edger.cpp
+    edger.cpp \
+    colorer.cpp
 
 HEADERS  += mainwindow.h \
     simpleaver.h \
     adaptaver.h \
     curver.h \
     sharper.h \
-    edger.h
+    edger.h \
+    colorer.h
 
 FORMS    += mainwindow.ui \
     simpleaver.ui \
     adaptaver.ui \
     curver.ui \
     sharper.ui \
-    edger.ui
+    edger.ui \
+    colorer.ui

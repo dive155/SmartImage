@@ -9,6 +9,8 @@ Curver::Curver(QWidget *parent) :
 
     slideOne = 0; //минимальное и максимальное значение диапазона
     slideTwo = 255;
+    slideMin = 0;
+    slideMax = 255;
     //далее настраиваем интерфейс
     ui->slider1->setMinimum(0);
     ui->slider1->setMaximumWidth(256);
@@ -26,6 +28,10 @@ Curver::Curver(QWidget *parent) :
             this, SLOT(sliderChanged(int)));
     connect(ui->slider2, SIGNAL(valueChanged(int)),
             this, SLOT(sliderChanged2(int)));
+    connect(ui->vslider1, SIGNAL(valueChanged(int)),
+            this, SLOT(sliderChanged4(int)));
+    connect(ui->vslider2, SIGNAL(valueChanged(int)),
+            this, SLOT(sliderChanged5(int)));
 
     solValue = 2; //степень соляризации
     gammaValue = 0.5; //степень гамма-коррекции
@@ -108,11 +114,12 @@ int Curver::linear(int source)
 { //функция принимает значение яркости пикселя и возвращает значение,
     //равное результату линйного преобразования с текущими настройками
     if (source >= slideOne && source<slideTwo) //если в диапазоне то считаем по формуле
-        return (255.0/(slideTwo-slideOne)) * (source-slideOne);
+        //return (255.0/(slideTwo-slideOne)) * (source-slideOne);
+        return (((slideMax-slideMin)*(source-slideOne))/(slideTwo-slideOne)) +slideMin;
     if (source < slideOne) //если меньше диапазона то возвращаем 0
-        return 0;
+        return slideMin;
     else //если больше то 255
-        return 255;
+        return slideMax;
 }
 
 void Curver::doLinear()
@@ -151,6 +158,22 @@ void Curver::sliderChanged2(int value)
     slideOne = qMin(value, ui->slider1->value()); //считаем новые границы диапазона
     slideTwo = qMax(value, ui->slider1->value());
     ui->rangeLable->setText(QString("%1-%2").arg(slideOne).arg(slideTwo));//выводим числа в лейбл
+    window->drawCurveOnGist(countCurve(4));
+}
+
+void Curver::sliderChanged4(int value)
+{//слот, реагирующий на движение второго слайдера
+    slideMin = qMin(value, ui->vslider2->value()); //считаем новые границы диапазона
+    slideMax = qMax(value, ui->vslider2->value());
+    ui->vertRangeLabel->setText(QString("%1-%2").arg(slideMin).arg(slideMax));//выводим числа в лейбл
+    window->drawCurveOnGist(countCurve(4));
+}
+
+void Curver::sliderChanged5(int value)
+{//слот, реагирующий на движение второго слайдера
+    slideMin = qMin(value, ui->vslider1->value()); //считаем новые границы диапазона
+    slideMax = qMax(value, ui->vslider1->value());
+    ui->vertRangeLabel->setText(QString("%1-%2").arg(slideMin).arg(slideMax));//выводим числа в лейбл
     window->drawCurveOnGist(countCurve(4));
 }
 

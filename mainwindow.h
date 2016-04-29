@@ -11,12 +11,14 @@
 #include "curver.h"
 #include "sharper.h"
 #include "edger.h"
+#include "colorer.h"
 
 class SimpleAver;
 class AdaptAver;
 class Curver;
 class Sharper;
 class Edger;
+class Colorer;
 
 namespace Ui {
 class MainWindow;
@@ -34,9 +36,9 @@ public:
     void receiveResult(QImage picture);
     void setMaxProgress(int value);
     void setProgress(int value);
-    QPixmap makeGist(QImage &greyPic);
+    QPixmap makeGist(QImage &greyPic, int mode);
     void drawCurveOnGist(QList<int> sourceArray);
-
+    QList<int> retrieveAray();
 
 private:
     Ui::MainWindow *ui;
@@ -52,6 +54,7 @@ private:
     Curver* curver;
     Sharper* sharper;
     Edger* edger;
+    Colorer* colorer;
 
     int cutx,cuty;
 

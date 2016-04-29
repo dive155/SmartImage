@@ -39,6 +39,8 @@ private:
     Ui::Curver *ui;
     int slideOne;
     int slideTwo;
+    int slideMin;
+    int slideMax;
     QImage image;
     QImage result;
 
@@ -62,6 +64,8 @@ private slots:
     void checkboxChanged(int);
     void checkOne();
     void checkShift(int value);
+    void sliderChanged4(int value);
+    void sliderChanged5(int value);
 };
 
 #endif // CURVER_H

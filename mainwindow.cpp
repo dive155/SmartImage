@@ -29,10 +29,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->applyButton, SIGNAL(clicked()),
             this, SLOT(saveSlot()));
 
+    ui->toolBox->removeItem(0);
+    ui->toolBox->removeItem(0);
+
+    colorer = new Colorer();
+    ui->toolBox->addItem(colorer, "Цветокоррекция");
+    colorer->setSource(this);
+    colorer->setImage(image);
+
+    curver = new Curver();
+    ui->toolBox->addItem(curver, "Кривые");
+    curver->setSource(this);
+    curver->setImage(image);
 
     sAver = new SimpleAver();
-    ui->toolBox->removeItem(0);
-    ui->toolBox->removeItem(0);
     ui->toolBox->addItem(sAver, "Простое шумоподавление");
     sAver->setSource(this);
     sAver->setImage(image);
@@ -41,11 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->addItem(aAver, "Адаптивное шумоподавление");
     aAver->setSource(this);
     aAver->setImage(image);
-
-    curver = new Curver();
-    ui->toolBox->addItem(curver, "Кривые");
-    curver->setSource(this);
-    curver->setImage(image);
 
     sharper = new Sharper();
     ui->toolBox->addItem(sharper, "Увеличение резкости");
@@ -93,7 +98,7 @@ void MainWindow::loadImage() //загружаем картинку
     //ui->cutLabel->setPixmap(doCut(&image,10));
     ui->progressBar->setMaximumWidth(image.width());
 
-    sourceGist=makeGist(image);
+    sourceGist=makeGist(image,4);
     ui->gistLabel->setPixmap(sourceGist);
 
     sAver->setImage(image);
@@ -101,6 +106,7 @@ void MainWindow::loadImage() //загружаем картинку
     curver->setImage(image);
     sharper->setImage(image);
     edger->setImage(image);
+    colorer->setImage(image);
 }
 
 void MainWindow::saveImage()
@@ -178,9 +184,10 @@ QPixmap MainWindow::doCutVert(QImage *picture, int a)
     return pixmap; //и возвращаем
 }
 
-QPixmap MainWindow::makeGist(QImage &greyPic)
+QPixmap MainWindow::makeGist(QImage &greyPic, int mode)
 {//функция, пересчитывающая яркости пикселей и выдающая гистограмму
     QImage gist(256,128, QImage::Format_RGB32);
+
     for (int z=1; z<3; z++)
     {
         for (int j = 0; j < 255; j++)
@@ -191,7 +198,15 @@ QPixmap MainWindow::makeGist(QImage &greyPic)
             for (int y = 0; y < greyPic.height(); y++)
             { //для каждого пикселя
                 QColor pixel = greyPic.pixel(x, y); //получаем пиксель
-                int color = pixel.lightness(); //считываем его яркость в переменную color
+                int color;
+                if (mode == 1)
+                    color = pixel.red(); //считываем его яркость в переменную color
+                if (mode == 2)
+                    color = pixel.green(); //считываем его яркость в переменную color
+                if (mode == 3)
+                    color = pixel.blue(); //считываем его яркость в переменную color
+                else
+                    color = pixel.lightness(); //считываем его яркость в переменную color
                 array[color] = array[color]+1; //и увеличиваем счетчик соответствующей яркости на 1
             }
         int big = 0; //найдем самый большой элемент массива
@@ -243,6 +258,16 @@ void MainWindow::drawCurveOnGist(QList<int> sourceArray)
     ui->gistLabel->setPixmap(pixmap);
 }
 
+QList<int> MainWindow::retrieveAray()
+{ //функция возвращает массив array в виде QList
+    QList<int> list;
+    for (int i=1; i<256; i++)
+    {
+        list << array[i];
+    }
+    return list;
+}
+
 
 void MainWindow::vSliderChanged(int value)
 {
@@ -291,7 +316,7 @@ void MainWindow::saveSlot()
     showImage(&image);
     ui->horizCutLabel->setPixmap(doCut(&result,cuty));
     ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
-    resultGist=makeGist(result);
+    resultGist=makeGist(result,4);
     sourceGist=resultGist;
     ui->gistLabel->setPixmap(resultGist);
 
@@ -300,6 +325,9 @@ void MainWindow::saveSlot()
     curver->setImage(image);
     sharper->setImage(image);
     edger->setImage(image);
+    colorer->setImage(image);
+
+    colorer->dropSliders();
 }
 
 
@@ -311,8 +339,8 @@ void MainWindow::receiveResult(QImage picture)
     ui->horizCutLabel->setPixmap(doCut(&result,cuty));
     ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
 
-    resultGist=makeGist(result);
-    sourceGist=makeGist(image);
+    resultGist=makeGist(result,4);
+    sourceGist=makeGist(image,4);
     ui->gistLabel->setPixmap(resultGist);
 }
 
