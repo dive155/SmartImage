@@ -39,6 +39,7 @@ public:
     QPixmap makeGist(QImage &greyPic, int mode);
     void drawCurveOnGist(QList<int> sourceArray);
     QList<int> retrieveAray();
+    void setupEverything(QImage image);
 
 private:
     Ui::MainWindow *ui;

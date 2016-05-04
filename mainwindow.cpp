@@ -7,10 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QMenu * mnFile = new QMenu("File"); // создаём меню Файл
+    QMenu * mnFile = new QMenu("Файл"); // создаём меню Файл
     // —-------— здесь добавляем пункт меню и подключаем его к слоту----
-    QAction *opnAction = new QAction("Open",mnFile);
-    QAction *saveAction = new QAction("Save",mnFile);
+    QAction *opnAction = new QAction("Открыть",mnFile);
+    QAction *saveAction = new QAction("Сохранить",mnFile);
     //далее соединяем сигналы со слотами и добавляем действия в менюбар
     connect(opnAction, SIGNAL(triggered()), this, SLOT(loadImage()));
     mnFile->addAction(opnAction);
@@ -31,6 +31,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->toolBox->removeItem(0);
     ui->toolBox->removeItem(0);
+
+    qDebug() << "been here";
+    QPixmap pixmap = QPixmap(":placeholders/background.png");
+    image = pixmap.toImage();
+    result = image;
+    setupEverything(image);
+    sourceGist=makeGist(image,4);
+    ui->gistLabel->setPixmap(sourceGist);
+
 
     colorer = new Colorer();
     ui->toolBox->addItem(colorer, "Цветокоррекция");
@@ -57,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
     sharper->setSource(this);
     sharper->setImage(image);
 
-    qDebug() << "been here";
+
     edger = new Edger();
     ui->toolBox->addItem(edger, "Выделение граней");
     edger->setSource(this);
@@ -89,15 +98,7 @@ void MainWindow::loadImage() //загружаем картинку
         return;
     result = QImage(image);
     showImage(&image);
-    ui->horizontalSlider->setMaximumWidth(image.width()-1);
-    ui->horizontalSlider->setMaximum(image.width()-1);
-    ui->verticalSlider->setMaximumHeight(image.height()-1);
-    ui->verticalSlider->setMaximum(image.height()-1);
-    ui->horizontalSlider->setValue(image.width()/2);
-    ui->verticalSlider->setValue(image.height()/2);
-    //ui->cutLabel->setPixmap(doCut(&image,10));
-    ui->progressBar->setMaximumWidth(image.width());
-
+    setupEverything(image);
     sourceGist=makeGist(image,4);
     ui->gistLabel->setPixmap(sourceGist);
 
@@ -107,6 +108,18 @@ void MainWindow::loadImage() //загружаем картинку
     sharper->setImage(image);
     edger->setImage(image);
     colorer->setImage(image);
+}
+
+void MainWindow::setupEverything(QImage image)
+{ //настраиваем классы и интерфейс при загрузке новой картинки
+    ui->horizontalSlider->setMaximumWidth(image.width()-1);
+    ui->horizontalSlider->setMaximum(image.width()-1);
+    ui->verticalSlider->setMaximumHeight(image.height()-1);
+    ui->verticalSlider->setMaximum(image.height()-1);
+    ui->horizontalSlider->setValue(image.width()/2);
+    ui->verticalSlider->setValue(image.height()/2);
+    //ui->cutLabel->setPixmap(doCut(&image,10));
+    ui->progressBar->setMaximumWidth(image.width());
 }
 
 void MainWindow::saveImage()

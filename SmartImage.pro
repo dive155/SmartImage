@@ -36,3 +36,8 @@ FORMS    += mainwindow.ui \
     sharper.ui \
     edger.ui \
     colorer.ui
+
+RESOURCES += \
+    placeholders.qrc
+
+RC_ICONS = si.ico

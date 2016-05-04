@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/placeholders">
+        <file>background.png</file>
+        <file>downcut.png</file>
+        <file>gist.png</file>
+        <file>sidecut.png</file>
+        <file>si.ico</file>
+    </qresource>
+</RCC>

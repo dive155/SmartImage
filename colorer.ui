@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
+    <width>275</width>
     <height>437</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>300</width>
+    <width>275</width>
     <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>300</width>
-    <height>16777215</height>
+    <width>275</width>
+    <height>437</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
          <widget class="QSlider" name="redSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
@@ -78,7 +78,7 @@
          <widget class="QSlider" name="blueSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
@@ -97,7 +97,7 @@
          <widget class="QSlider" name="greenSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
@@ -201,7 +201,7 @@
          <widget class="QSlider" name="hueSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
@@ -241,7 +241,7 @@
          <widget class="QSlider" name="lightnessSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
@@ -260,7 +260,7 @@
          <widget class="QSlider" name="satuSlider">
           <property name="maximumSize">
            <size>
-            <width>235</width>
+            <width>211</width>
             <height>16777215</height>
            </size>
           </property>
