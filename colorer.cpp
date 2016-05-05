@@ -33,6 +33,9 @@ Colorer::Colorer(QWidget *parent) :
     hueSet=0;
     satuSet=0;
     lightSet=0;
+    redSet = 0;
+    greenSet = 0;
+    blueSet = 0;
     autoThreshold=5;
 }
 

@@ -12,6 +12,7 @@
 #include "sharper.h"
 #include "edger.h"
 #include "colorer.h"
+#include "bilaterator.h"
 
 class SimpleAver;
 class AdaptAver;
@@ -19,6 +20,7 @@ class Curver;
 class Sharper;
 class Edger;
 class Colorer;
+class Bilaterator;
 
 namespace Ui {
 class MainWindow;
@@ -56,6 +58,7 @@ private:
     Sharper* sharper;
     Edger* edger;
     Colorer* colorer;
+    Bilaterator* bilaterator;
 
     int cutx,cuty;
 

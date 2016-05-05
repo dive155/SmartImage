@@ -359,12 +359,12 @@ qreal SimpleAver::contr(QList<int> src, int rang)
 }
 
 QList<qreal> SimpleAver::genGauss(int power, qreal sigma)
-{
+{ //генератор маски по Гауссу
     QList<qreal>ohNo;
     for (int i = 1; i<=power*2+1; i++)
     {
         for (int j = 1; j<=power*2+1; j++)
-        {
+        { //считаем по формуле
 
             ohNo.append( (1.0/sqrt(2.0*3.14159*sigma*sigma)) * qExp( -(qPow((j-power - 1.0), 2) + qPow((i-power - 1.0), 2))/(2.0*sigma*sigma) ));
         }
@@ -372,7 +372,7 @@ QList<qreal> SimpleAver::genGauss(int power, qreal sigma)
     qreal sum = 0;
     for (int i = 0; i<ohNo.size(); i++)
         sum = sum+ohNo[i];
-    sum =1/sum;
+    sum =1/sum; //нормализуем
     for (int i = 0; i<ohNo.size(); i++)
         ohNo[i]=ohNo[i]*sum;
     return ohNo;

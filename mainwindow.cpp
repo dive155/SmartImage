@@ -61,6 +61,11 @@ MainWindow::MainWindow(QWidget *parent) :
     aAver->setSource(this);
     aAver->setImage(image);
 
+    bilaterator = new Bilaterator();
+    ui->toolBox->addItem(bilaterator, "Билатеральный фильтр");
+    bilaterator->setSource(this);
+    bilaterator->setImage(image);
+
     sharper = new Sharper();
     ui->toolBox->addItem(sharper, "Увеличение резкости");
     sharper->setSource(this);
@@ -108,6 +113,7 @@ void MainWindow::loadImage() //загружаем картинку
     sharper->setImage(image);
     edger->setImage(image);
     colorer->setImage(image);
+    bilaterator->setImage(image);
 }
 
 void MainWindow::setupEverything(QImage image)
@@ -339,6 +345,7 @@ void MainWindow::saveSlot()
     sharper->setImage(image);
     edger->setImage(image);
     colorer->setImage(image);
+    bilaterator->setImage(image);
 
     colorer->dropSliders();
 }
