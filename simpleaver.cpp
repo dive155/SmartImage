@@ -31,6 +31,7 @@ SimpleAver::SimpleAver(QWidget *parent) :
     connect(ui->gausBut, SIGNAL(clicked()),
             this, SLOT(gausFilter()));
     strength = 1;
+    sigma = 0.5;
 }
 
 SimpleAver::~SimpleAver()

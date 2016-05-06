@@ -125,7 +125,6 @@ void MainWindow::setupEverything(QImage image)
     ui->horizontalSlider->setValue(image.width()/2);
     ui->verticalSlider->setValue(image.height()/2);
     //ui->cutLabel->setPixmap(doCut(&image,10));
-    ui->progressBar->setMaximumWidth(image.width());
 }
 
 void MainWindow::saveImage()
