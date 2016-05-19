@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>938</width>
-    <height>807</height>
+    <width>957</width>
+    <height>653</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -291,7 +291,7 @@ QProgressBar {
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="placeholders.qrc">:/placeholders/gist.png</pixmap>
+            <pixmap>:/placeholders/gist.png</pixmap>
            </property>
           </widget>
          </item>
@@ -324,7 +324,7 @@ QProgressBar {
            <x>0</x>
            <y>0</y>
            <width>300</width>
-           <height>523</height>
+           <height>369</height>
           </rect>
          </property>
          <attribute name="label">
@@ -337,7 +337,7 @@ QProgressBar {
            <x>0</x>
            <y>0</y>
            <width>300</width>
-           <height>523</height>
+           <height>369</height>
           </rect>
          </property>
          <attribute name="label">
@@ -355,7 +355,7 @@ QProgressBar {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>938</width>
+     <width>957</width>
      <height>21</height>
     </rect>
    </property>

@@ -7,25 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>280</width>
-    <height>415</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>280</width>
-    <height>415</height>
+    <height>444</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>280</width>
-    <height>415</height>
+    <width>288</width>
+    <height>444</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -57,18 +57,63 @@
      <property name="title">
       <string>Простые фильтры</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="text">
-         <string>Медианный фильтр</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>Медианный фильтр</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_6">
+          <property name="text">
+           <string>Усредняющий фильтр</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_6">
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QPushButton" name="cutAverBut">
+          <property name="text">
+           <string>Усеч. Сред.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="cut_Label">
+          <property name="text">
+           <string>Усечение: 0</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="horizontalSlider">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximum">
+           <number>4</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cuvBut">
         <property name="text">
-         <string>Усредняющий фильтр</string>
+         <string>Фильтр Кувахары</string>
         </property>
        </widget>
       </item>
@@ -168,20 +213,6 @@
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <widget class="QPushButton" name="pushButtonGarm1">
-          <property name="text">
-           <string>Среднегармонический</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="pushButtonGarm2">
-          <property name="text">
-           <string>Контргармонический</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
@@ -191,17 +222,31 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QSpinBox" name="spinBoxGarm">
-            <property name="minimum">
-             <number>-10</number>
-            </property>
-            <property name="maximum">
-             <number>10</number>
-            </property>
-           </widget>
-          </item>
          </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButtonGarm1">
+          <property name="text">
+           <string>Среднегармонический</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButtonGarm2">
+          <property name="text">
+           <string>Контргармонический</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="spinBoxGarm">
+          <property name="minimum">
+           <number>-10</number>
+          </property>
+          <property name="maximum">
+           <number>10</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

@@ -82,6 +82,13 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete edger;
+    delete sharper;
+    delete bilaterator;
+    delete aAver;
+    delete sAver;
+    delete curver;
+    delete colorer;
 }
 
 
@@ -371,4 +378,5 @@ void MainWindow::setMaxProgress(int value)
 void MainWindow::setProgress(int value)
 {
     ui->progressBar->setValue(value);
+    qApp->processEvents();
 }

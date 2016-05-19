@@ -30,8 +30,16 @@ SimpleAver::SimpleAver(QWidget *parent) :
             this, SLOT(setGausSigma(double)));
     connect(ui->gausBut, SIGNAL(clicked()),
             this, SLOT(gausFilter()));
+
+    connect(ui->horizontalSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(checkCut(int)));
+    connect(ui->cutAverBut, SIGNAL(clicked()),
+            this, SLOT(cutFilter()));
+    connect(ui->cuvBut, SIGNAL(clicked()),
+            this, SLOT(cuvahFilter()));
     strength = 1;
     sigma = 0.5;
+    cutValue = 0;
 }
 
 SimpleAver::~SimpleAver()
@@ -55,6 +63,7 @@ void SimpleAver::checkSpin(int spin)
 { //this set's up area size
     strength = spin;
     ui->spinBox_2->setMaximum(strength*strength);
+    ui->horizontalSlider->setMaximum(((2*strength +1)*(2*strength +1)-1)/2);
 } //the size limit for the "offset" spinbox is area size squared
 
 void SimpleAver::checkDisplacement(int spin)
@@ -415,4 +424,145 @@ void SimpleAver::gausFilter()
 void SimpleAver::setGausSigma(double spin)
 {
     sigma = spin;
+}
+
+//--------------------------------------------------------------------------------------
+
+
+
+QList<int> SimpleAver::cutList(QList<int> sourceList, int cutValue)
+{ //усечение массива пикселей
+    QList<int> tempList;
+    for (int i = cutValue; i < sourceList.size()-cutValue; i++)
+        tempList.append(sourceList[i]);
+    return tempList;
+
+}
+
+void SimpleAver::cutFilter()
+{ //фильтр усеченного среднего
+    window->setMaxProgress(image.width()-1);
+    QList<int> proxR, proxG, proxB;
+    for (int x = 0; x<image.width(); x++)
+    {
+        window->setProgress(x);
+        for (int y = 0; y<image.height(); y++)
+        {
+            proxR = vicinity(&image,strength,x,y,1);
+            qSort(proxR); //получаем окрестности
+            proxG = vicinity(&image,strength,x,y,2);
+            qSort(proxG);
+            proxB = vicinity(&image,strength,x,y,3);
+            qSort(proxB);
+            QColor pixel;
+            //устанавливаем цвет равным среднему арефметическому от усеченного массива:
+            pixel.setRed(listAverage(cutList(proxR, cutValue)));
+            pixel.setGreen(listAverage(cutList(proxG, cutValue)));
+            pixel.setBlue(listAverage(cutList(proxB, cutValue)));
+            result.setPixel(x,y,pixel.rgb()); //записываем результат
+        }
+    }
+    window->receiveResult(result); //показываем результат
+}
+
+double SimpleAver::listDisp(QList<int> theArray, int mu)
+{ //функция считает дисперсию значений списка
+    //qDebug() << "listdisp";
+    double aver = 0; //counting color value
+    for (int i = 0; i <= theArray.size()-1; i++)
+    {
+        aver = aver + ((theArray[i]-mu)*(theArray[i]-mu));
+    }
+    aver = aver / theArray.size();
+    return aver;
+}
+
+void SimpleAver::cuvahFilter()
+{ //фильтр кувахары
+    window->setMaxProgress(image.width()-1);
+    for (int x = 0; x<image.width(); x++)
+    {
+        window->setProgress(x);
+        for (int y = 0; y<image.height(); y++)
+        {
+            QColor pixel;
+            //присваиваем пикселю результат обработки окрестности фильтром Кувахары
+            pixel.setRed(doCuvah(vicinity(&image,strength,x,y,1)));
+            pixel.setGreen(doCuvah(vicinity(&image,strength,x,y,2)));
+            pixel.setBlue(doCuvah(vicinity(&image,strength,x,y,3)));
+            result.setPixel(x,y,pixel.rgb()); //записываем результат
+        }
+    }
+    window->receiveResult(result); //показываем результат
+}
+
+int SimpleAver::doCuvah(QList<int> sourceList)
+{ //возвращаем результат обработки массива фильтром Кувахары
+    QList<int> quad1,quad2,quad3,quad4;
+    int dr = 2*strength;
+    int dro = 2*strength+1;
+    //получаем 1й квадрант:
+    for (int j = 0; j<strength; j++)
+        for (int i = 0; i<strength; i++)
+            quad1 << sourceList[j*dro + i];
+    int aver1 = listAverage(quad1); //получаем среднюю яркость квадранта
+    double disp1 = listDisp(quad1,aver1); //получаем дисперсию квадранта
+    //qDebug() << quad1 <<aver1 << disp1;
+    //получаем 2й квадрант:
+    for (int j = 0; j<strength; j++)
+        for (int i = 0; i<strength; i++)
+            quad2 << sourceList[j*dro + dr-i];
+    int aver2 = listAverage(quad2); //получаем среднюю яркость квадранта
+    double disp2 = listDisp(quad2,aver2); //получаем дисперсию квадранта
+    //qDebug() << quad2 <<aver2 << disp2;
+    //получаем 3й квадрант:
+    for (int j = 0; j<strength; j++)
+        for (int i = 0; i<strength; i++)
+            quad3 << sourceList[(dr-j)*dro + i];
+    int aver3 = listAverage(quad3); //получаем среднюю яркость квадранта
+    double disp3 = listDisp(quad3,aver3); //получаем дисперсию квадранта
+    //qDebug() << quad3 <<aver3 << disp3;
+    //получаем 4й квадрант:
+    for (int j = 0; j<strength; j++)
+        for (int i = 0; i<strength; i++)
+            quad4 << sourceList[(dr-j)*dro + dr-i];
+    int aver4 = listAverage(quad4); //получаем среднюю яркость квадранта
+    double disp4 = listDisp(quad4,aver4); //получаем дисперсию квадранта
+    //qDebug() << quad4 <<aver4 << disp4;
+
+    //ищем квадрант с минимальной дисперсией:
+    double minDisp = disp1;
+    int min=1;
+    if (disp2<minDisp)
+    {
+        minDisp = disp2;
+        min = 2;
+    }
+    if (disp3<minDisp)
+    {
+        minDisp = disp3;
+        min = 3;
+    }
+    if (disp4<minDisp)
+    {
+        minDisp = disp4;
+        min = 4;
+    }
+
+    //возвращаем среднюю яркость квадранта с минимальной дисперсией:
+    if (min == 1)
+        return aver1;
+    if (min == 2)
+        return aver2;
+    if (min == 3)
+        return aver3;
+    else
+        return aver4;
+
+}
+
+void SimpleAver::checkCut(int spin)
+{
+    cutValue = spin;
+    ui->cut_Label->setText(QString("Усечение: %1").arg(spin));
 }

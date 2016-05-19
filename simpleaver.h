@@ -33,6 +33,10 @@ public:
      QList<qreal> genGauss(int power, qreal sigma);
      int applyKernel(QList<int> area, QList<qreal>  kernel);
 
+     QList<int> cutList(QList<int> sourceList, int cutValue);
+     double listDisp(QList<int> theArray, int mu);
+     int doCuvah(QList<int> sourceList);
+
 protected:
      MainWindow* window;
 
@@ -46,6 +50,7 @@ private:
     int displacement;
     int degree;
     qreal sigma;
+    int cutValue;
 
 private slots:
     void medFilter();
@@ -62,6 +67,10 @@ private slots:
 
     void gausFilter();
     void setGausSigma(double spin);
+
+    void checkCut(int spin);
+    void cutFilter();
+    void cuvahFilter();
 };
 
 #endif // SIMPLEAVER_H

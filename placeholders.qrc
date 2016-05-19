@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/placeholders">
-        <file>background.png</file>
         <file>si.ico</file>
+        <file>background.png</file>
     </qresource>
 </RCC>
