@@ -32,11 +32,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->toolBox->removeItem(0);
     ui->toolBox->removeItem(0);
 
+    //а теперь попробуем сделать так, чтобы большие картинки не разрывали юзеру экран
+    QDesktopWidget desktop;
+
+    maxHeight=desktop.availableGeometry().height() - 240;
+    maxWidth=desktop.availableGeometry().width() - 460;
+    qDebug() << maxHeight << maxWidth;
+    /*---------------------------------------------------*/
+
     qDebug() << "been here";
     QPixmap pixmap = QPixmap(":placeholders/background.png");
     image = pixmap.toImage();
     result = image;
-    setupEverything(image);
+    imageScaled = reduceSize(image);
+    resultScaled = reduceSize(result);
+    setupEverything(image, imageScaled);
     sourceGist=makeGist(image,4);
     ui->gistLabel->setPixmap(sourceGist);
 
@@ -77,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent) :
     edger->setSource(this);
     edger->setImage(image);
 
+
+
 }
 
 MainWindow::~MainWindow()
@@ -109,11 +121,12 @@ void MainWindow::loadImage() //загружаем картинку
     if (image.format() == QImage::Format_Invalid)
         return;
     result = QImage(image);
-    showImage(&image);
-    setupEverything(image);
+    imageScaled = reduceSize(image);
+    resultScaled = reduceSize(result);
+    showImage(&imageScaled);
+    setupEverything(image, imageScaled);
     sourceGist=makeGist(image,4);
     ui->gistLabel->setPixmap(sourceGist);
-
     sAver->setImage(image);
     aAver->setImage(image);
     curver->setImage(image);
@@ -123,15 +136,42 @@ void MainWindow::loadImage() //загружаем картинку
     bilaterator->setImage(image);
 }
 
-void MainWindow::setupEverything(QImage image)
+void MainWindow::setupEverything(QImage image, QImage imageScaled)
 { //настраиваем классы и интерфейс при загрузке новой картинки
-    ui->horizontalSlider->setMaximumWidth(image.width()-1);
+    ui->horizontalSlider->setMaximumWidth(imageScaled.width()-1);
     ui->horizontalSlider->setMaximum(image.width()-1);
-    ui->verticalSlider->setMaximumHeight(image.height()-1);
+    ui->verticalSlider->setMaximumHeight(imageScaled.height()-1);
     ui->verticalSlider->setMaximum(image.height()-1);
     ui->horizontalSlider->setValue(image.width()/2);
     ui->verticalSlider->setValue(image.height()/2);
     //ui->cutLabel->setPixmap(doCut(&image,10));
+}
+
+QImage MainWindow::reduceSize(QImage picture)
+{
+    qDebug() << "we've got " << picture.height() << picture.width();
+    if ((picture.width()>maxWidth)&&(picture.height()>maxHeight))
+    {
+        if ((picture.width()-maxWidth)>=(picture.height()-maxHeight))
+            picture=picture.scaledToWidth(maxWidth, Qt::SmoothTransformation);
+        if ((picture.width()-maxWidth)<(picture.height()-maxHeight))
+            picture=picture.scaledToHeight(maxHeight, Qt::SmoothTransformation);
+        qDebug() << "derp1";
+        return picture;
+    }
+
+    if (picture.width()>maxWidth)
+    {
+        picture=picture.scaledToWidth(maxWidth, Qt::SmoothTransformation);
+        qDebug() << "derp2";
+    }
+    if (picture.height()>maxHeight)
+    {
+        picture=picture.scaledToHeight(maxHeight, Qt::SmoothTransformation);
+        qDebug() << "derp3";
+    }
+    qDebug() << "returning " << picture.height() << picture.width();
+    return picture;
 }
 
 void MainWindow::saveImage()
@@ -176,6 +216,7 @@ QPixmap MainWindow::doCut(QImage *picture, int y)
         }
     }
     tgist = tgist.mirrored(0,1); //отзеркаливаем потому что пока что картинка перевернута
+    tgist = tgist.scaled(imageScaled.width(), tgist.height(), Qt::IgnoreAspectRatio);
     QPixmap pixmap;
     pixmap.convertFromImage(tgist);
     return pixmap; //и возвращаем
@@ -204,6 +245,7 @@ QPixmap MainWindow::doCutVert(QImage *picture, int a)
             tgist.setPixel(x, y, qRgb(255,255,255));//pixel.rgb());
         }
     }
+    tgist = tgist.scaled(tgist.width(), imageScaled.height(), Qt::IgnoreAspectRatio);
     QPixmap pixmap;
     pixmap.convertFromImage(tgist);
     return pixmap; //и возвращаем
@@ -319,7 +361,7 @@ void MainWindow::radio()
     if (ui->sourceBtn->isChecked())
     {
         output = image;
-        showImage(&image); //показываем картинку
+        showImage(&imageScaled); //показываем картинку
         ui->horizCutLabel->setPixmap(doCut(&image,cuty));
         ui->vertiCutLabel->setPixmap(doCutVert(&image,cutx));
         ui->gistLabel->setPixmap(sourceGist);
@@ -327,7 +369,7 @@ void MainWindow::radio()
     if (ui->resultBtn->isChecked())
     {
         output = result;
-        showImage(&result); //показываем картинку
+        showImage(&resultScaled); //показываем картинку
         ui->horizCutLabel->setPixmap(doCut(&result,cuty));
         ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
         ui->gistLabel->setPixmap(resultGist);
@@ -338,7 +380,8 @@ void MainWindow::radio()
 void MainWindow::saveSlot()
 { //сохранить изменения, внесенные фильтрами
     image=result;
-    showImage(&image);
+    imageScaled=resultScaled;
+    showImage(&imageScaled);
     ui->horizCutLabel->setPixmap(doCut(&result,cuty));
     ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));
     resultGist=makeGist(result,4);
@@ -360,7 +403,8 @@ void MainWindow::saveSlot()
 void MainWindow::receiveResult(QImage picture)
 { //получить результат
     result = picture;
-    showImage(&result);
+    resultScaled = reduceSize(result);
+    showImage(&resultScaled);
     ui->resultBtn->setChecked(true);
     ui->horizCutLabel->setPixmap(doCut(&result,cuty));
     ui->vertiCutLabel->setPixmap(doCutVert(&result,cutx));

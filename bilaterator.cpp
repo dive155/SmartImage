@@ -135,9 +135,10 @@ void Bilaterator::applyFilter()
         for (int y = 0; y<image.height(); y++)
         {
             QColor pixel = image.pixel(x, y);
-            QList<int> vicinityR = vicinity(&image,strength,x,y,1);
+            QList<int> vicinityR = vicinity(&image,strength,x,y,1); //получаем окрестности
             QList<int> vicinityG = vicinity(&image,strength,x,y,2);
             QList<int> vicinityB = vicinity(&image,strength,x,y,3);
+            //устанавливаем новые яркости:
             pixel.setRed(applyKernel(vicinityR,modifyGaussian(vicinityR,gaussian,sigmaCoef)));
             pixel.setGreen(applyKernel(vicinityG,modifyGaussian(vicinityG,gaussian,sigmaCoef)));
             pixel.setBlue(applyKernel(vicinityB,modifyGaussian(vicinityB,gaussian,sigmaCoef)));
@@ -145,7 +146,7 @@ void Bilaterator::applyFilter()
             result.setPixel(x,y,pixel.rgb());
         }
     }
-    window->receiveResult(result);
+    window->receiveResult(result); //отправляем результат
 }
 
 void Bilaterator::setGausSigma(double spin)

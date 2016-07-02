@@ -13,6 +13,7 @@
 #include "edger.h"
 #include "colorer.h"
 #include "bilaterator.h"
+#include <QDesktopWidget>
 
 class SimpleAver;
 class AdaptAver;
@@ -41,16 +42,22 @@ public:
     QPixmap makeGist(QImage &greyPic, int mode);
     void drawCurveOnGist(QList<int> sourceArray);
     QList<int> retrieveAray();
-    void setupEverything(QImage image);
+    void setupEverything(QImage image, QImage imageScaled);
+    QDesktopWidget desktop;
+    QImage reduceSize(QImage picture);
 
 private:
     Ui::MainWindow *ui;
     QImage image;
     QImage result;
     QImage output;
+    QImage imageScaled;
+    QImage resultScaled;
     int array[256];
     QPixmap sourceGist, resultGist;
     QList<int> funcArray;
+    int maxWidth;
+    int maxHeight;
 
     SimpleAver* sAver;
     AdaptAver* aAver;

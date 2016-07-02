@@ -146,7 +146,7 @@ void Colorer::invertSlot()
         for (int x = 0; x<image.width(); x++)
         {
             QColor pixel = image.pixel(x,y);
-            pixel.setHsl(pixel.hslHue()+180, pixel.hslSaturation(), pixel.lightness());
+            pixel.setHsl(pixel.hslHue()+180, pixel.hslSaturation(), 255-pixel.lightness());
             result.setPixel(x,y,pixel.rgb());
         }
     window->receiveResult(result);
