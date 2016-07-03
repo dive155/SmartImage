@@ -2,5 +2,20 @@
     <qresource prefix="/placeholders">
         <file>si.ico</file>
         <file>background.png</file>
+        <file>readme/blur.png</file>
+        <file>readme/blur_fixed.png</file>
+        <file>readme/contrast.png</file>
+        <file>readme/contrast_fixed.png</file>
+        <file>readme/edges.png</file>
+        <file>readme/gamma.png</file>
+        <file>readme/gamma_fixed.png</file>
+        <file>readme/grains.png</file>
+        <file>readme/grains_fixed.png</file>
+        <file>readme/noise.png</file>
+        <file>readme/noise_fixed.png</file>
+        <file>readme/normal.png</file>
+        <file>readme/satur_fixed.png</file>
+        <file>readme/brightness.png</file>
+        <file>readme/brightness_fixed.png</file>
     </qresource>
 </RCC>

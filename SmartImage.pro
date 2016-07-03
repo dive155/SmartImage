@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     sharper.cpp \
     edger.cpp \
     colorer.cpp \
-    bilaterator.cpp
+    bilaterator.cpp \
+    helpwindow.cpp
 
 HEADERS  += mainwindow.h \
     simpleaver.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     sharper.h \
     edger.h \
     colorer.h \
-    bilaterator.h
+    bilaterator.h \
+    helpwindow.h
 
 FORMS    += mainwindow.ui \
     simpleaver.ui \
@@ -38,7 +40,8 @@ FORMS    += mainwindow.ui \
     sharper.ui \
     edger.ui \
     colorer.ui \
-    bilaterator.ui
+    bilaterator.ui \
+    helpwindow.ui
 
 RESOURCES += \
     placeholders.qrc
