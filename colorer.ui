@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Цветовой баланс</string>
+      <string>Color balance</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -56,21 +56,21 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Красный</string>
+           <string>Red:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Зеленый:</string>
+           <string>Green:</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Синий:</string>
+           <string>Blue:</string>
           </property>
          </widget>
         </item>
@@ -140,14 +140,14 @@
         <item>
          <widget class="QPushButton" name="balanceButton">
           <property name="text">
-           <string>Автобаланс</string>
+           <string>Autobalance</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Порог:</string>
+           <string>Threshold:</string>
           </property>
          </widget>
         </item>
@@ -155,7 +155,7 @@
          <widget class="QSlider" name="thresholdSlider">
           <property name="maximumSize">
            <size>
-            <width>121</width>
+            <width>79</width>
             <height>16777215</height>
            </size>
           </property>
@@ -182,7 +182,7 @@
       <item>
        <widget class="QPushButton" name="greyButton">
         <property name="text">
-         <string>Метод &quot;серого мира&quot;</string>
+         <string>&quot;Gray world&quot; method</string>
         </property>
        </widget>
       </item>
@@ -192,7 +192,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Цветовой тон/насыщенность</string>
+      <string>Hue/Saturation</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -219,21 +219,21 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Цветовой тон:</string>
+           <string>Hue:</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Насыщенность:</string>
+           <string>Saturation:</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Яркость:</string>
+           <string>Brightness:</string>
           </property>
          </widget>
         </item>
@@ -303,14 +303,14 @@
         <item>
          <widget class="QPushButton" name="invertButton">
           <property name="text">
-           <string>Инвертировать</string>
+           <string>Invert</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="bnwButton">
           <property name="text">
-           <string>Превратить в Ч/Б</string>
+           <string>Convert to grayscale</string>
           </property>
          </widget>
         </item>

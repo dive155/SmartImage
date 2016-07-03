@@ -29,13 +29,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Общая настройка:</string>
+      <string>Common settings</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Радиус апертуры</string>
+         <string>Aperture radius:</string>
         </property>
        </widget>
       </item>
@@ -55,7 +55,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Простые фильтры</string>
+      <string>Simple filters</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -63,14 +63,14 @@
         <item>
          <widget class="QPushButton" name="pushButton_4">
           <property name="text">
-           <string>Медианный фильтр</string>
+           <string>Median filter</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_6">
           <property name="text">
-           <string>Усредняющий фильтр</string>
+           <string>Averaging filter</string>
           </property>
          </widget>
         </item>
@@ -81,14 +81,14 @@
         <item>
          <widget class="QPushButton" name="cutAverBut">
           <property name="text">
-           <string>Усеч. Сред.</string>
+           <string>Tuncated aver.</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="cut_Label">
           <property name="text">
-           <string>Усечение: 0</string>
+           <string>Truncation:0</string>
           </property>
          </widget>
         </item>
@@ -96,8 +96,14 @@
          <widget class="QSlider" name="horizontalSlider">
           <property name="minimumSize">
            <size>
-            <width>100</width>
+            <width>0</width>
             <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>73</width>
+            <height>16777215</height>
            </size>
           </property>
           <property name="maximum">
@@ -113,7 +119,7 @@
       <item>
        <widget class="QPushButton" name="cuvBut">
         <property name="text">
-         <string>Фильтр Кувахары</string>
+         <string>Kuwahara filter</string>
         </property>
        </widget>
       </item>
@@ -123,7 +129,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_5">
      <property name="title">
-      <string>Фильтр Гаусса</string>
+      <string>Gauss filter</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -131,14 +137,14 @@
         <item>
          <widget class="QPushButton" name="gausBut">
           <property name="text">
-           <string>Применить</string>
+           <string>Execute</string>
           </property>
          </widget>
         </item>
         <item alignment="Qt::AlignRight">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Сигма:</string>
+           <string>Sigma:</string>
           </property>
          </widget>
         </item>
@@ -163,7 +169,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Ранговый фильтр:</string>
+      <string>Rang filter:</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
@@ -173,7 +179,7 @@
           <item>
            <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>Смещение</string>
+             <string>Shift:</string>
             </property>
            </widget>
           </item>
@@ -194,7 +200,7 @@
           <item>
            <widget class="QPushButton" name="pushButton_5">
             <property name="text">
-             <string>Ранговый фильтр</string>
+             <string>Rang filter</string>
             </property>
            </widget>
           </item>
@@ -208,7 +214,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
-      <string>Гармонические фильтры</string>
+      <string>Harmonic filters</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
@@ -218,7 +224,7 @@
           <item>
            <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>Порядок</string>
+             <string>Order:</string>
             </property>
            </widget>
           </item>
@@ -227,14 +233,14 @@
         <item row="1" column="0">
          <widget class="QPushButton" name="pushButtonGarm1">
           <property name="text">
-           <string>Среднегармонический</string>
+           <string>Average harmonic</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="pushButtonGarm2">
           <property name="text">
-           <string>Контргармонический</string>
+           <string>Contrharmonic</string>
           </property>
          </widget>
         </item>

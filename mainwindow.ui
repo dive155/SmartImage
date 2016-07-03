@@ -102,14 +102,14 @@ QProgressBar {
                <item alignment="Qt::AlignLeft">
                 <widget class="QRadioButton" name="sourceBtn">
                  <property name="text">
-                  <string>Исходник</string>
+                  <string>Source</string>
                  </property>
                 </widget>
                </item>
                <item alignment="Qt::AlignLeft">
                 <widget class="QRadioButton" name="resultBtn">
                  <property name="text">
-                  <string>Результат</string>
+                  <string>Result</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -238,7 +238,7 @@ QProgressBar {
            </size>
           </property>
           <property name="text">
-           <string>Применить</string>
+           <string>Apply Changes</string>
           </property>
          </widget>
         </item>
@@ -270,7 +270,7 @@ QProgressBar {
          </size>
         </property>
         <property name="title">
-         <string>Гистограмма</string>
+         <string>Histogram</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item alignment="Qt::AlignHCenter">

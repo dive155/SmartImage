@@ -23,7 +23,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Настройки фильтра</string>
+      <string>Filter settings</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -31,7 +31,7 @@
         <item>
          <widget class="QLabel" name="label_7">
           <property name="text">
-           <string>Радиус апертуры</string>
+           <string>Aperture radius</string>
           </property>
          </widget>
         </item>
@@ -48,7 +48,7 @@
         <item alignment="Qt::AlignRight">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Сигма:</string>
+           <string>Sigma</string>
           </property>
          </widget>
         </item>
@@ -75,7 +75,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Диапазон яркости:</string>
+           <string>Brightness range</string>
           </property>
          </widget>
         </item>
@@ -100,7 +100,7 @@
       <item>
        <widget class="QPushButton" name="bilBut">
         <property name="text">
-         <string>Применить</string>
+         <string>Apply</string>
         </property>
        </widget>
       </item>

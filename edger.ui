@@ -29,7 +29,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Методы выделения</string>
+      <string>Edge detection methods</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -37,7 +37,7 @@
         <item row="0" column="0">
          <widget class="QRadioButton" name="but1">
           <property name="text">
-           <string>Уоллес</string>
+           <string>Wallace</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -47,21 +47,21 @@
         <item row="0" column="1">
          <widget class="QRadioButton" name="but2">
           <property name="text">
-           <string>Собель</string>
+           <string>Sobel</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
          <widget class="QRadioButton" name="but3">
           <property name="text">
-           <string>Превитт</string>
+           <string>Prewitt</string>
           </property>
          </widget>
         </item>
         <item row="1" column="1">
          <widget class="QRadioButton" name="but4">
           <property name="text">
-           <string>Кирш</string>
+           <string>Kirsch</string>
           </property>
          </widget>
         </item>
@@ -95,7 +95,7 @@
       <item>
        <widget class="QPushButton" name="filterButton">
         <property name="text">
-         <string>Применить</string>
+         <string>Execute</string>
         </property>
        </widget>
       </item>

@@ -7,10 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QMenu * mnFile = new QMenu("Файл"); // создаём меню Файл
+    QMenu * mnFile = new QMenu("File"); // создаём меню Файл
     // —-------— здесь добавляем пункт меню и подключаем его к слоту----
-    QAction *opnAction = new QAction("Открыть",mnFile);
-    QAction *saveAction = new QAction("Сохранить",mnFile);
+    QAction *opnAction = new QAction("Open",mnFile);
+    QAction *saveAction = new QAction("Save",mnFile);
     //далее соединяем сигналы со слотами и добавляем действия в менюбар
     connect(opnAction, SIGNAL(triggered()), this, SLOT(loadImage()));
     mnFile->addAction(opnAction);
@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     maxHeight=desktop.availableGeometry().height() - 240;
     maxWidth=desktop.availableGeometry().width() - 460;
-    qDebug() << maxHeight << maxWidth;
+    //qDebug() << maxHeight << maxWidth;
     /*---------------------------------------------------*/
 
     qDebug() << "been here";
@@ -48,45 +48,45 @@ MainWindow::MainWindow(QWidget *parent) :
     resultScaled = reduceSize(result);
     setupEverything(image, imageScaled);
     sourceGist=makeGist(image,4);
+    resultGist=sourceGist;
     ui->gistLabel->setPixmap(sourceGist);
 
 
     colorer = new Colorer();
-    ui->toolBox->addItem(colorer, "Цветокоррекция");
+    ui->toolBox->addItem(colorer, "Color correction");
     colorer->setSource(this);
     colorer->setImage(image);
 
     curver = new Curver();
-    ui->toolBox->addItem(curver, "Кривые");
+    ui->toolBox->addItem(curver, "Curves");
     curver->setSource(this);
     curver->setImage(image);
 
     sAver = new SimpleAver();
-    ui->toolBox->addItem(sAver, "Простое шумоподавление");
+    ui->toolBox->addItem(sAver, "Simple noise reduction");
     sAver->setSource(this);
     sAver->setImage(image);
 
     aAver = new AdaptAver();
-    ui->toolBox->addItem(aAver, "Адаптивное шумоподавление");
+    ui->toolBox->addItem(aAver, "Adaptive noise reduction");
     aAver->setSource(this);
     aAver->setImage(image);
 
     bilaterator = new Bilaterator();
-    ui->toolBox->addItem(bilaterator, "Билатеральный фильтр");
+    ui->toolBox->addItem(bilaterator, "Bilateral filter");
     bilaterator->setSource(this);
     bilaterator->setImage(image);
 
     sharper = new Sharper();
-    ui->toolBox->addItem(sharper, "Увеличение резкости");
+    ui->toolBox->addItem(sharper, "Edge sharpening");
     sharper->setSource(this);
     sharper->setImage(image);
 
 
     edger = new Edger();
-    ui->toolBox->addItem(edger, "Выделение граней");
+    ui->toolBox->addItem(edger, "Edge detection");
     edger->setSource(this);
     edger->setImage(image);
-
 
 
 }
@@ -148,29 +148,29 @@ void MainWindow::setupEverything(QImage image, QImage imageScaled)
 }
 
 QImage MainWindow::reduceSize(QImage picture)
-{
-    qDebug() << "we've got " << picture.height() << picture.width();
+{ // эта функция делает уменьшенную большую картинку для отображения в интерфейсе
+    //qDebug() << "we've got " << picture.height() << picture.width();
     if ((picture.width()>maxWidth)&&(picture.height()>maxHeight))
     {
         if ((picture.width()-maxWidth)>=(picture.height()-maxHeight))
             picture=picture.scaledToWidth(maxWidth, Qt::SmoothTransformation);
         if ((picture.width()-maxWidth)<(picture.height()-maxHeight))
             picture=picture.scaledToHeight(maxHeight, Qt::SmoothTransformation);
-        qDebug() << "derp1";
+        //qDebug() << "derp1";
         return picture;
     }
 
     if (picture.width()>maxWidth)
     {
         picture=picture.scaledToWidth(maxWidth, Qt::SmoothTransformation);
-        qDebug() << "derp2";
+        //qDebug() << "derp2";
     }
     if (picture.height()>maxHeight)
     {
         picture=picture.scaledToHeight(maxHeight, Qt::SmoothTransformation);
-        qDebug() << "derp3";
+        //qDebug() << "derp3";
     }
-    qDebug() << "returning " << picture.height() << picture.width();
+    //qDebug() << "returning " << picture.height() << picture.width();
     return picture;
 }
 
@@ -417,10 +417,13 @@ void MainWindow::receiveResult(QImage picture)
 void MainWindow::setMaxProgress(int value)
 {
     ui->progressBar->setMaximum(value);
+    ui->toolBox->setDisabled(1);
 }
 
 void MainWindow::setProgress(int value)
 {
     ui->progressBar->setValue(value);
+    if (ui->progressBar->value()==ui->progressBar->maximum())
+            ui->toolBox->setDisabled(0);
     qApp->processEvents();
 }

@@ -564,5 +564,5 @@ int SimpleAver::doCuvah(QList<int> sourceList)
 void SimpleAver::checkCut(int spin)
 {
     cutValue = spin;
-    ui->cut_Label->setText(QString("Усечение: %1").arg(spin));
+    ui->cut_Label->setText(QString("Truncation: %1").arg(spin));
 }

@@ -29,13 +29,13 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Общая настройка:</string>
+      <string>Common settings:</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>Радиус апертуры</string>
+         <string>Aperture radius</string>
         </property>
        </widget>
       </item>
@@ -52,7 +52,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Адаптивный усредняющий фильтр</string>
+      <string>Adaptive averaging filter</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -60,7 +60,7 @@
         <item>
          <widget class="QLabel" name="label_8">
           <property name="text">
-           <string>Дисперсия шума</string>
+           <string>Noise dispersion</string>
           </property>
          </widget>
         </item>
@@ -75,7 +75,7 @@
          <string notr="true"/>
         </property>
         <property name="text">
-         <string>Адаптивный усредняющий</string>
+         <string>Adaptive averaging</string>
         </property>
        </widget>
       </item>
@@ -85,7 +85,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
-      <string>Адаптивный медианный фильтр</string>
+      <string>Adaptive median filter</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -93,7 +93,7 @@
         <item>
          <widget class="QLabel" name="label_9">
           <property name="text">
-           <string>Максимальная апертура</string>
+           <string>Maximum aperture</string>
           </property>
          </widget>
         </item>
@@ -112,7 +112,7 @@
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Адаптивный медианный</string>
+         <string>Adaptive median</string>
         </property>
        </widget>
       </item>
