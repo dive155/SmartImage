@@ -17,5 +17,6 @@
         <file>readme/satur_fixed.png</file>
         <file>readme/brightness.png</file>
         <file>readme/brightness_fixed.png</file>
+        <file>logo.png</file>
     </qresource>
 </RCC>

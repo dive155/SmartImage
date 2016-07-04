@@ -91,8 +91,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //добавим окно "Help"
     QMenu * mnHelp = new QMenu("Help"); // создаём меню Файл
     QAction *aboutAction = new QAction("How to use",mnHelp);
-    connect(aboutAction, SIGNAL(triggered()), this, SLOT(makeAbout()));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(makeHelp()));
     mnHelp->addAction(aboutAction);
+
+    QAction *realAboutAction = new QAction("About",mnHelp);
+    connect(realAboutAction, SIGNAL(triggered()), this, SLOT(makeAbout()));
+    mnHelp->addAction(realAboutAction);
 
     ui->menuBar->addMenu(mnHelp);
 
@@ -110,11 +114,18 @@ MainWindow::~MainWindow()
     delete colorer;
 }
 
-void MainWindow::makeAbout()
+void MainWindow::makeHelp()
 { //делаем оконшко about
     whatIsThis = new HelpWindow();
     whatIsThis->show();
     whatIsThis->setWindowTitle("How to use");
+}
+
+void MainWindow::makeAbout()
+{
+    aboutThis = new AboutWindow();
+    aboutThis->show();
+    aboutThis->setWindowTitle("About");
 }
 
 void MainWindow::loadImage() //загружаем картинку

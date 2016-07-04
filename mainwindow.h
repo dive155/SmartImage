@@ -14,6 +14,7 @@
 #include "colorer.h"
 #include "bilaterator.h"
 #include "helpwindow.h"
+#include "aboutwindow.h"
 #include <QDesktopWidget>
 
 class SimpleAver;
@@ -71,6 +72,7 @@ private:
     int cutx,cuty;
 
     HelpWindow* whatIsThis;
+    AboutWindow* aboutThis;
 
 private slots:
 void loadImage();
@@ -80,6 +82,7 @@ void vSliderChanged(int value);
 void hSliderChanged(int value);
 void radio();
 void saveSlot();
+void makeHelp();
 void makeAbout();
 };
 
