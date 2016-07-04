@@ -25,7 +25,7 @@ SimpleAver::SimpleAver(QWidget *parent) :
     connect(ui->pushButtonGarm2, SIGNAL(clicked()),
             this, SLOT(contrFilter()));
     connect(ui->spinBoxGarm, SIGNAL(valueChanged(int)),
-            this, SLOT(checkSpinD(int)));
+            this, SLOT(checkdegree(int)));
     connect(ui->sigmaSpin, SIGNAL(valueChanged(double)),
             this, SLOT(setGausSigma(double)));
     connect(ui->gausBut, SIGNAL(clicked()),
@@ -40,6 +40,7 @@ SimpleAver::SimpleAver(QWidget *parent) :
     strength = 1;
     sigma = 0.5;
     cutValue = 0;
+    degree=0;
 }
 
 SimpleAver::~SimpleAver()
