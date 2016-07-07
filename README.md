@@ -12,7 +12,7 @@ A small free image editing software, designed to fix damaged images. Includes ad
 
 #### [User's manual](https://github.com/dive155/SmartImage/wiki)
 
-#### [Download the lastest version](https://github.com/dive155/SmartImage/releases)
+#### [Download the latest version](https://github.com/dive155/SmartImage/releases)
 
 ----
 
